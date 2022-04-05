@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context-4.3.xsd
+						http://www.springframework.org/schema/mvc
+						http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
+
+	<context:component-scan
+		base-package="com.example.SpringMVC_Postgresql" />
+		
+	<context:component-scan
+		base-package="com.example.SpringMVC_Postgresql.Controllers" />
+<!-- cấu hình file để chạy -->
+	<bean id="templateResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/templates/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+<!-- cấu hình csdl -->
+	<bean id="ds" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="org.postgresql.Driver" />
+		<property name="url" value="jdbc:postgresql://localhost:5432/sinhvien" />
+		<property name="username" value="postgres" />
+		<property name="password" value="nguyen" />
+	</bean>
+
+	<bean id="jt" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="ds"></property>
+	</bean>
+
+	<!-- <bean id="dao" class="com.example.SpringMVC_Postgresql.DAO.SinhVienDAO">    
+		<property name="template" ref="jt"></property>    
+	</bean>   --> 
+	
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource" >
+		<property name="basename" value="/alert/message"></property>
+	</bean>
+	<!-- luôn có để tự động load annotation -->
+	<mvc:annotation-driven/>   
+</beans>
